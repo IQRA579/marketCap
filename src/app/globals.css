@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+:root {
+  --page: #dfe8e4;
+  --card: #ffffff;
+  --ink: #0f1f1a;
+  --muted: #7d8a85;
+  --line: #eceff0;
+  --field: #ffffff;
+  --forest: #0b4034;
+  --forest-2: #12503f;
+  --up: #2e9e5b;
+  --down: #e0a93b;
+  --neg: #d4533b;
+  --t-cream: #fbf3d0;
+  --t-rose: #ecdcd3;
+  --t-blue: #d9e0f7;
+  --t-stone: #ece9e6;
+  --t-mint: #d5f0e2;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --page: #0b1512;
+  --card: #111d19;
+  --ink: #e8f0ec;
+  --muted: #8a9a94;
+  --line: #22322c;
+  --field: #16241f;
+  --forest: #0f5a47;
+  --forest-2: #157058;
+  --up: #45c47a;
+  --down: #e8b64c;
+  --neg: #ef7a62;
+  --t-cream: #3a3620;
+  --t-rose: #3b2d28;
+  --t-blue: #262d4a;
+  --t-stone: #2b2a29;
+  --t-mint: #1f3a2d;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-field: var(--field);
+  --color-forest: var(--forest);
+  --color-forest-2: var(--forest-2);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-neg: var(--neg);
+  --color-t-cream: var(--t-cream);
+  --color-t-rose: var(--t-rose);
+  --color-t-blue: var(--t-blue);
+  --color-t-stone: var(--t-stone);
+  --color-t-mint: var(--t-mint);
+  --font-sans: var(--font-outfit);
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.scroll-x {
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}

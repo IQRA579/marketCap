@@ -5,21 +5,26 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
-    cookies: {
-      getAll: () => request.cookies.getAll(),
-      setAll(list) {
-        list.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        list.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+  try {
+    const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
+      cookies: {
+        getAll: () => request.cookies.getAll(),
+        setAll(list) {
+          list.forEach(({ name, value }) => request.cookies.set(name, value));
+          response = NextResponse.next({ request });
+          list.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+        },
       },
-    },
-  });
+    });
+    await supabase.auth.getUser();
+  } catch (e) {
+    // A misconfigured or unreachable auth backend must not take the whole site down.
+    console.error("proxy: session refresh failed", e instanceof Error ? e.message : e);
+  }
 
-  await supabase.auth.getUser();
   return response;
 }
 
 export const config = {
-  matcher: ["/((?!api/stripe/webhook|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api/stripe/webhook|api/health|_next/static|_next/image|favicon.ico).*)"],
 };
